@@ -1,0 +1,29 @@
+sspring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/login?serverTimezone=UTC&characterEncoding=UTF-8
+    username: login
+    password: user1234
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+    defer-datasource-initialization: true
+
+server:
+  port: 8096
+
+app:
+  jwtExpirationInMs: '300000'
+  refreshTokenExpirationInMs: '604800000'
+  issuer: wxodi0@gmail.com
+  key: 'dsflajnfekwbfu34r3b4j4235kb345jk234523h4j52345c2hg23m4n4jkl3bk789juioz2uivcob32q7wevipx8x89797jowmekwrmbq32urc'
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
