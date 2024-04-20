@@ -12,7 +12,7 @@ import jakarta.persistence.Table
 class ClassInfo (
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  var id: Int,
+  var id: Int?,
 
   @Column(nullable = false)
   var grade: Int,
