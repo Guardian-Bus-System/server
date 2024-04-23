@@ -7,12 +7,12 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.core.env.Environment
 import org.springframework.http.HttpMethod
 import org.springframework.security.authentication.AuthenticationManager
-import org.springframework.security.config.annotation.SecurityConfigurerAdapter
+import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import org.springframework.security.web.DefaultSecurityFilterChain
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import org.springframework.web.cors.CorsConfiguration
@@ -23,7 +23,8 @@ import java.util.*
 @Configuration
 @EnableWebSecurity
 class SecurityConfig (
-): EnvironmentAware, SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity>() {
+  val authProviders: List<AuthenticationProvider>?
+): EnvironmentAware {
   lateinit var env: Environment
 
   override fun setEnvironment(environment: Environment) {
@@ -36,7 +37,7 @@ class SecurityConfig (
     http: HttpSecurity
   ): SecurityFilterChain {
     //동일한 출처의 프레임 허용
-    //Clickjacking 공격을 방지하기 위해.
+    //ClickJacking 공격을 방지하기 위해.
     http.headers {
       it.frameOptions{ frames ->
         frames.sameOrigin()
@@ -51,15 +52,18 @@ class SecurityConfig (
       //정적 소스 허용
       it.requestMatchers(
         "/",
-        "/html/**",
         "/css/**",
+        "/html/**",
         "/js/**",
+        "/images/**",
+        "/png/**",
+        "/jpg/**"
       ).permitAll()
 
       it.requestMatchers(
-        "/login",
-        "/signUp",
-        "/user",
+        "/auth/*",
+        "/user/**",
+        "/**" //TODO: 테스팅용으로 모든 request 허용
       ).permitAll()
 
       it.requestMatchers(HttpMethod.OPTIONS, "/**")
@@ -78,23 +82,27 @@ class SecurityConfig (
       it.disable()
     }
 
+    authProviders!!.forEach {
+      http.authenticationProvider(it)
+    }
+
     return http.build()
   }
   @Bean
   fun corsConfigurationSource(): CorsConfigurationSource? {
     val configuration = CorsConfiguration()//요청이 허용되지 않은 새 인스턴스
-    configuration.allowedOriginPatterns = Arrays.asList(
+    configuration.allowedOriginPatterns = listOf(
       // 추후 도메인 추가
       "*"
     )
     if (Arrays.stream(env.activeProfiles)
         .anyMatch { profile: String -> "dev" == profile || "local" == profile || "linkprod" == profile || "staging" == profile }
     ) {
-      configuration.allowedOriginPatterns = Arrays.asList(
+      configuration.allowedOriginPatterns = listOf(
         "*"
       )
     }
-    configuration.allowedMethods = Arrays.asList(
+    configuration.allowedMethods = listOf(
       "HEAD",
       "GET",
       "POST",
@@ -102,7 +110,7 @@ class SecurityConfig (
       "DELETE",
       "OPTIONS"
     )
-    configuration.allowedHeaders = Arrays.asList(
+    configuration.allowedHeaders = listOf(
       "Authorization",
       "TOKEN_ID",
       "X-Requested-With",
@@ -119,7 +127,7 @@ class SecurityConfig (
   }
 
   @Bean
-  fun JwtAuthenticationFilter(authenticationManager: AuthenticationManager): JwtAuthenticationFilter? {
+  fun authenticationFilter(authenticationManager: AuthenticationManager): JwtAuthenticationFilter? {
     return JwtAuthenticationFilter(authenticationManager)
   }
 
@@ -129,7 +137,7 @@ class SecurityConfig (
   }
 
   @Bean
-  fun passwordEncoder(): BCryptPasswordEncoder {
+  fun passwordEncoder(): PasswordEncoder {
     return BCryptPasswordEncoder()
   }
 
