@@ -20,7 +20,7 @@ class AuthController (
   private val authService: AuthService
 ) {
 
-  //관리자 전용 유저 회원가입 api
+  //유저 회원가입 api
   @PostMapping("/join")
   fun join(
     @RequestBody dto: UserJoinDto
@@ -35,8 +35,8 @@ class AuthController (
     return ok(authService.login(dto))
   }
 
-//  @PostMapping("/refresh")
-//  fun refresh(@RequestBody refreshToken: RefreshToken): CommonResponse<JwtToken> {
-//    return ok(authService.refresh(refreshToken))
-//  }
+  @PostMapping("/refresh")
+  fun refresh(@RequestBody refreshToken: RefreshToken): CommonResponse<JwtToken> {
+    return ok(authService.refresh(refreshToken))
+  }
 }
