@@ -16,6 +16,7 @@ import java.util.Base64
 import java.util.Date
 import java.util.stream.Collector
 import java.util.stream.Collectors
+import javax.crypto.spec.SecretKeySpec
 
 @Component
 class JwtUtils (
@@ -26,18 +27,20 @@ class JwtUtils (
 
   //
   @PostConstruct
-  fun init() {
-    val bytes: ByteArray = Base64.getDecoder().decode(jwtProperties.secretKey)
-    key = Keys.hmacShaKeyFor(bytes)
+  protected fun init() {
+    val secretKey = Base64.getEncoder().encodeToString(
+      jwtProperties.secretKey!!.toByteArray()
+    )
+    key = SecretKeySpec(secretKey!!.toByteArray(), SignatureAlgorithm.HS512.jcaName)
   }
 
   //Access Token
   fun generateAccessToken(authentication: Authentication): String {
     //authentication == userDetails 인터페이스 구현한 객체 이기에 사용자 정보를 담은 userDeails로 형변환하여 다양한 메서드를 처리할 수 있다.
-    val userDetails = authentication.principal as UserDetails
+    val principal = authentication.principal as UserDetails
 
 
-    return generateToken(userDetails, jwtProperties.jwtExpirationMs!!)
+    return generateToken(principal, jwtProperties.jwtExpirationMs!!)
   }
 
   //Refresh Token
@@ -69,6 +72,7 @@ class JwtUtils (
       .compact()
   }
 
+  //토큰 유효성 검사
   fun validationToken(token: String): Boolean {
     return try {
       Jwts.parserBuilder()
@@ -81,17 +85,17 @@ class JwtUtils (
     }
   }
 
+  //Token을 이용한 권한 추출
   fun getAuthorities(token: String): List<GrantedAuthority> {
     val claims = getClaims(token)
-    val authorities = claims["roles"] as List<String>
+    val authorities = claims["roles"] as List<*>
     //val authorities = claims.get("roles")
     return authorities.stream()
-      .map { SimpleGrantedAuthority(it) }
+      .map { SimpleGrantedAuthority(it.toString()) }
       .collect(Collectors.toList())
-
-
   }
 
+  //claims 추출
   fun getClaims(token: String): Claims {
     return Jwts.parserBuilder()
       .setSigningKey(key)
@@ -100,6 +104,7 @@ class JwtUtils (
       .body //claims를 전체 반환하기 위해
   }
 
+  //subject로 변환한 claims 추출
   fun getSubject(token: String): String {
     return getClaims(token).subject
   }
