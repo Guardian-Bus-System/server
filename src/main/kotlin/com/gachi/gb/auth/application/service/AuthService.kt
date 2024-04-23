@@ -1,7 +1,9 @@
 package com.gachi.gb.auth.application.service
 
 import com.gachi.gb.auth.security.authentication.IdPasswordAuthentication
+import com.gachi.gb.auth.security.authentication.RefreshAuthentication
 import com.gachi.gb.auth.security.authentication.jwt.JwtToken
+import com.gachi.gb.auth.security.authentication.jwt.RefreshToken
 import com.gachi.gb.user.domain.ClassInfo
 import com.gachi.gb.user.domain.Role
 import com.gachi.gb.user.domain.User
@@ -13,6 +15,7 @@ import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.core.Authentication
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
+import org.springframework.web.bind.annotation.RequestBody
 import java.util.*
 
 @Service
@@ -50,26 +53,30 @@ class AuthService (
 
     //회원 가입시 자동 로그인
     val authentication = authenticationManager.authenticate(
-      IdPasswordAuthentication(dto.loginId, dto.pw, )
+      IdPasswordAuthentication(dto.loginId, dto.pw,)
     )
 
     return createToken(authentication)
   }
 
-  fun login(id: UUID, dto: UserLoginDto): JwtToken {
+  fun login(dto: UserLoginDto): JwtToken {
     val authentication = authenticationManager.authenticate(
       IdPasswordAuthentication(dto.loginId, dto.pw)
     )
-
     return createToken(authentication)
   }
 
-  fun createToken(authentication: Authentication): JwtToken {
-//    val userId = authentication.principal as String
-//    val authority = authentication.authorities
+  //TODO: RefreshToken 재발급
+  fun refresh(dto: RefreshToken) {
+    val authentication = authenticationManager.authenticate(
+      RefreshAuthentication(null, dto.refreshToken)
+    )
+    val token = createToken(authentication)
 
+  }
+
+  fun createToken(authentication: Authentication): JwtToken {
     return createTokenService.createToken(authentication)
-    // 토큰 만료일에 대해서 체크를 해야되는데 우선 모르니 스킵.
   }
 
 }
