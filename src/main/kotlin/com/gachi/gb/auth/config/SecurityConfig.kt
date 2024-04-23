@@ -61,9 +61,9 @@ class SecurityConfig (
       ).permitAll()
 
       it.requestMatchers(
-        "/auth/*",
-        "/user/**",
-        "/**" //TODO: 테스팅용으로 모든 request 허용
+        "/**", //TODO: 테스팅용으로 모든 request 허용
+        "/auth/**",
+        "/user/**"
       ).permitAll()
 
       it.requestMatchers(HttpMethod.OPTIONS, "/**")
@@ -75,7 +75,7 @@ class SecurityConfig (
         .defaultSuccessUrl("/articles")
     }
     http.logout {
-      it.logoutSuccessUrl("login")
+      it.logoutSuccessUrl("/login")
         .invalidateHttpSession(true)
     }
     http.csrf {
