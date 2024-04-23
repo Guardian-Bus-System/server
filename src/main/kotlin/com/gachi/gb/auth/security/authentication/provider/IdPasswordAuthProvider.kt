@@ -3,6 +3,7 @@ package com.gachi.gb.auth.security.authentication.provider
 import com.gachi.gb.auth.security.authentication.IdPasswordAuthentication
 import com.gachi.gb.common.exception.UnauthorizedException
 import com.gachi.gb.user.service.UserService
+import org.springframework.context.annotation.Lazy
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.core.Authentication
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -13,7 +14,7 @@ import java.util.UUID
 @Component
 class IdPasswordAuthProvider (
   private val userService: UserService,
-  private val passwordEncoder: PasswordEncoder
+  @Lazy private val passwordEncoder: PasswordEncoder
 ): AuthenticationProvider {
   override fun authenticate(authentication: Authentication?): Authentication {
     val userId = (authentication as IdPasswordAuthentication).principal as UUID
