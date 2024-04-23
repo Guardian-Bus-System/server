@@ -21,6 +21,7 @@ repositories {
 
 dependencies {
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+  implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
   implementation("org.springframework.boot:spring-boot-starter-oauth2-authorization-server")
   implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
   implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
@@ -30,6 +31,7 @@ dependencies {
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
 
+  //심각도가 높은 취약점 발견, 인증서 검사 취약점 발견
   implementation("org.springframework.security:spring-security-jwt:1.1.1.RELEASE")
   implementation("io.jsonwebtoken:jjwt-api:0.11.5")
   implementation("io.jsonwebtoken:jjwt-impl:0.11.5")
@@ -41,6 +43,7 @@ dependencies {
   runtimeOnly("com.mysql:mysql-connector-j")
   testImplementation("org.springframework.boot:spring-boot-starter-test")
   testImplementation("org.springframework.security:spring-security-test")
+
 }
 
 tasks.withType<KotlinCompile> {
