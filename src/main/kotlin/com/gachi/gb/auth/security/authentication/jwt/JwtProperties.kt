@@ -1,14 +1,15 @@
 package com.gachi.gb.auth.security.authentication.jwt
 
 import org.springframework.boot.context.properties.ConfigurationProperties
-import org.springframework.stereotype.Component
-import java.security.Key
+import org.springframework.context.annotation.Configuration
 
-@Component
+@Configuration
 @ConfigurationProperties("app")
-class JwtProperties {
-  val jwtExpirationMs: Int? = null
-  val jwtRefreshExpirationMs: Int? = null
-  val issuer: String? = null
-  val secretKey: String? = null
+//data class => 복사 constructor을 생성해줘서 간편함
+data class JwtProperties (
+  var jwtExpirationMs: Int? = null,
+  var jwtRefreshExpirationMs: Int? = null,
+  var issuer: String? = null,
+  var secretKey: String? = null
+) {
 }
