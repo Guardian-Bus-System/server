@@ -6,9 +6,10 @@ import java.util.Optional
 import java.util.UUID
 
 interface UserRepository: JpaRepository<User, Int> {
-  fun findByLoginId(id: String): User
 
   fun findById(id: UUID): Optional<User>
+
+  fun findByLoginId(loginId: String): Optional<User>
 
   fun existsByLoginId(loginId: String): Boolean
 }

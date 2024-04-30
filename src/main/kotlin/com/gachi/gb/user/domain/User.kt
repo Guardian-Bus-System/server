@@ -26,8 +26,10 @@ class User (
 
   var name: String,
 
-  @OneToOne
-  var classInfo: ClassInfo,
+  //ClassInfo
+  var grade: Int,
+  var classNumber: Int,
+  var number: Int,
 
   @ManyToMany
   var roles: MutableList<Role>
