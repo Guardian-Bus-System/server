@@ -6,10 +6,6 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.ManyToMany
-import jakarta.persistence.OneToMany
-import jakarta.persistence.OneToOne
-import jakarta.persistence.UniqueConstraint
-import org.hibernate.annotations.GenericGenerator
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import java.util.UUID
@@ -34,7 +30,7 @@ class User (
   @ManyToMany
   var roles: MutableList<Role>
 ) {
-  fun generateAuthorities(): List<GrantedAuthority> {
+  fun getAuthorities(): List<GrantedAuthority> {
     return roles.map {role ->
       SimpleGrantedAuthority(role.name)
     }
