@@ -10,16 +10,14 @@ import java.util.UUID
 class UserServiceImpl (
   private val userRepository: UserRepository
 ): UserService {
-//  override fun getUser(userId: String): User {
-//
-//    val user = userRepository.
-//
-//    if(user.equals(null)) {
-//      throw IllegalArgumentException("유저가 존재하지 않습니다.")
-//    }
-//
-//    return user
-//  }
+
+  override fun getUserByLoginId(userLoginId: String): User {
+    val user = userRepository.findByLoginId(userLoginId).orElseThrow {
+      throw IllegalArgumentException("유저가 존재하지 않습니다.")
+    }
+
+    return user
+  }
 
   override fun getUserById(userId: UUID): User {
     val user = userRepository.findById(userId).orElseThrow {
@@ -28,4 +26,6 @@ class UserServiceImpl (
 
     return user
   }
+
+
 }
