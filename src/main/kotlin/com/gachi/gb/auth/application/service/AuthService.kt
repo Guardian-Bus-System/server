@@ -15,8 +15,6 @@ import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.core.Authentication
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
-import org.springframework.web.bind.annotation.RequestBody
-import java.util.*
 
 @Service
 class AuthService (
@@ -40,12 +38,9 @@ class AuthService (
       dto.loginId,
       passwordEncoder.encode(dto.pw),
       dto.name,
-      ClassInfo(
-        null,
-        dto.grade,
-        dto.classNumber,
-        dto.number
-      ),
+      dto.grade,
+      dto.classNumber,
+      dto.number,
       mutableListOf(role)
     )
 
@@ -53,7 +48,7 @@ class AuthService (
 
     //회원 가입시 자동 로그인
     val authentication = authenticationManager.authenticate(
-      IdPasswordAuthentication(dto.loginId, dto.pw,)
+      IdPasswordAuthentication(dto.loginId, dto.pw)
     )
 
     return createToken(authentication)
@@ -67,12 +62,17 @@ class AuthService (
   }
 
   //TODO: RefreshToken 재발급
-  fun refresh(dto: RefreshToken) {
+  fun refresh(dto: RefreshToken): JwtToken {
     val authentication = authenticationManager.authenticate(
       RefreshAuthentication(null, dto.refreshToken)
     )
     val token = createToken(authentication)
 
+    //다음에
+    return JwtToken(
+      "",
+      ""
+    )
   }
 
   fun createToken(authentication: Authentication): JwtToken {
