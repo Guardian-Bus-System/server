@@ -1,0 +1,29 @@
+### 회원가입 API
+POST http://localhost:8096/auth/join
+Content-Type: application/json
+
+{
+  "loginId": "testUser2",
+  "pw": "test2",
+  "name": "test2",
+  "grade": 3,
+  "classNumber": 1,
+  "number": 1
+}
+
+### 로그인 API
+POST http://localhost:8096/auth/login
+Content-Type: application/json
+
+{
+  "loginId": "testUser1",
+  "pw": "test1"
+}
+
+### 토큰 갱신 API
+POST http://localhost:8096/auth/refresh
+Content-Type: application/json
+
+{
+  "refreshToken": "your_refresh_token_here"
+}
