@@ -8,7 +8,6 @@ import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.core.Authentication
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
-import java.util.UUID
 
 //TODO: 간단한 로그인을 위해서 사용 => id, pw를 통한 login
 @Component
@@ -17,13 +16,13 @@ class IdPasswordAuthProvider (
   @Lazy private val passwordEncoder: PasswordEncoder
 ): AuthenticationProvider {
   override fun authenticate(authentication: Authentication?): Authentication {
-    val userId = (authentication as IdPasswordAuthentication).principal as UUID
-    val user = userService.getUserById(userId)
+    val userLoginId = (authentication as IdPasswordAuthentication).principal as String
+    val user = userService.getUserByLoginId(userLoginId)
     val userPassword = authentication.credentials as String
 
     //matches = rawPassword, encodedPassword
     if(passwordEncoder.matches(userPassword, user.pw)) {
-      return IdPasswordAuthentication(userId, null, user.generateAuthorities())
+      return IdPasswordAuthentication(userLoginId, null, user.generateAuthorities())
     }
     throw UnauthorizedException("비밀번호가 맞지 않아 인증에 실패함.")
   }
