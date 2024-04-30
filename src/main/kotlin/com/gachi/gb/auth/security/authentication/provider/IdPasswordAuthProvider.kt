@@ -1,5 +1,6 @@
 package com.gachi.gb.auth.security.authentication.provider
 
+import com.gachi.gb.auth.security.SimpleUserPrincipal
 import com.gachi.gb.auth.security.authentication.IdPasswordAuthentication
 import com.gachi.gb.common.exception.UnauthorizedException
 import com.gachi.gb.user.service.UserService
@@ -22,7 +23,7 @@ class IdPasswordAuthProvider (
 
     //matches = rawPassword, encodedPassword
     if(passwordEncoder.matches(userPassword, user.pw)) {
-      return IdPasswordAuthentication(userLoginId, null, user.generateAuthorities())
+      return IdPasswordAuthentication(SimpleUserPrincipal(user.id!!, user.getAuthorities()), userPassword, user.getAuthorities())
     }
     throw UnauthorizedException("비밀번호가 맞지 않아 인증에 실패함.")
   }
