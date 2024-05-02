@@ -1,0 +1,2 @@
+GET http://localhost:8097/admin/users
+Content-Type: application/json

@@ -1,0 +1,4 @@
+### 본인 프로필 조회
+GET http://localhost:8097/users/me
+Content-Type: application/json
+Authorization: Bearer {{TOKEN}}
