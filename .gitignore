@@ -21,6 +21,8 @@ bin/
 #**/application.yml
 application.yml
 
+### Http env ###
+/src/main/resources/http/env
 
 ### IntelliJ IDEA ###
 .idea
