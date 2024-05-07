@@ -20,11 +20,11 @@ class UserServiceImpl (
   }
 
   override fun getUserById(userId: UUID): User {
-    val user = userRepository.findById(userId).orElseThrow {
+    val checkUser = userRepository.findById(userId).orElseThrow {
       throw IllegalArgumentException("유저가 존재하지 않습니다.")
     }
 
-    return user
+    return checkUser
   }
 
 

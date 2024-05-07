@@ -20,7 +20,7 @@ class UserController (
   private val userService: UserService
 ) {
   @GetMapping("/me")
-  fun getByUserId(@AuthUserId id: UUID): CommonResponse<User> {
-    return ok(userService.getUserById(id))
+  fun getByUserId(@AuthUserId userId: String): CommonResponse<User> {
+    return ok(userService.getUserByLoginId(userId))
   }
 }
