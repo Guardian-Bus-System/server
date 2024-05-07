@@ -6,7 +6,7 @@ import java.beans.ConstructorProperties
 import java.util.UUID
 
 class SimpleUserPrincipal @ConstructorProperties("id", "authorities") constructor(
-  val id: UUID,
+  val id: String,
   private val authorities: Collection<GrantedAuthority>
 ): UserDetails {
   override fun getAuthorities(): Collection<GrantedAuthority> {
@@ -18,7 +18,7 @@ class SimpleUserPrincipal @ConstructorProperties("id", "authorities") constructo
   }
 
   override fun getUsername(): String {
-    return id.toString()
+    return id
   }
 
   override fun isAccountNonExpired(): Boolean {
