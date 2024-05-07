@@ -2,6 +2,7 @@ package com.gachi.gb.auth.config
 
 import com.gachi.gb.auth.security.JwtUtils
 import com.gachi.gb.auth.security.filter.JwtAuthenticationFilter
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.EnvironmentAware
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -9,6 +10,7 @@ import org.springframework.core.env.Environment
 import org.springframework.http.HttpMethod
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.AuthenticationProvider
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
@@ -31,6 +33,11 @@ class SecurityConfig (
 
   override fun setEnvironment(environment: Environment) {
     this.env = environment
+  }
+
+  @Autowired
+  fun registerProvider(authenticationManagerBuilder: AuthenticationManagerBuilder) {
+    authProviders?.forEach(authenticationManagerBuilder::authenticationProvider)
   }
 
   @Bean
