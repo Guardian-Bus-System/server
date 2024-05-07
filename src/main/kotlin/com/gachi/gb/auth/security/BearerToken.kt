@@ -11,7 +11,7 @@ class BearerToken(val accessToken: String) {
   }
 
   companion object {
-    const val BEARER_PREFIX = "Bearer"
+    const val BEARER_PREFIX = "Bearer "
 
     @JvmStatic
     fun of(bearerToken: String): BearerToken {
