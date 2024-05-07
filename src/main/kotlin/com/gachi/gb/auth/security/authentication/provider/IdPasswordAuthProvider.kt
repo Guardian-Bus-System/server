@@ -23,7 +23,7 @@ class IdPasswordAuthProvider (
 
     //matches = rawPassword, encodedPassword
     if(passwordEncoder.matches(userPassword, user.pw)) {
-      return IdPasswordAuthentication(SimpleUserPrincipal(user.id!!, user.getAuthorities()), userPassword, user.getAuthorities())
+      return IdPasswordAuthentication(SimpleUserPrincipal(user.loginId, user.getAuthorities()), userPassword, user.getAuthorities())
     }
     throw UnauthorizedException("비밀번호가 맞지 않아 인증에 실패함.")
   }
