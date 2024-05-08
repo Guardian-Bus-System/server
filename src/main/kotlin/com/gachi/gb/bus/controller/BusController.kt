@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/bus")
+@RequestMapping("/buses")
 class BusController (
   private val busService: BusService
 ) {
@@ -21,7 +21,7 @@ class BusController (
   }
 
   //버스 목록 조회
-  @GetMapping("/buses")
+  @GetMapping("/")
   fun getBuses(): CommonResponse<List<Bus>> {
     return ok(busService.getBuses())
   }
