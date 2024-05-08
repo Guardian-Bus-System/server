@@ -13,15 +13,15 @@ import java.time.LocalDate
 class BusRecords (
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  val id: Int,
+  var id: Int,
 
   @Column(nullable = false)
-  val takeDate: LocalDate,
+  var takeDate: LocalDate,
 
   @OneToOne
-  val user: User,
+  var user: User,
 
   @OneToOne
-  val busInfo: Bus
+  var busInfo: Bus
 ) {
 }

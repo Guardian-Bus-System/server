@@ -6,23 +6,30 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import org.hibernate.annotations.ColumnDefault
+import java.time.LocalDateTime
 
 @Entity
 class Bus (
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  val id: Int,
+  var id: Int?,
 
   @Column(nullable = false)
-  val busNumber: Int,
+  var busNumber: Int,
 
   @Column(nullable = false)
-  val line: String,
+  var line: String,
 
   @Column(nullable = false)
-  val endLine: String,
+  var endLine: String,
 
   @Column(nullable = false)
-  val maxTable: Int
+  var maxTable: Int,
+
+  @Column(nullable = false)
+  var createdAt: LocalDateTime,
+
+  @Column(nullable = true)
+  var updateAt: LocalDateTime
 ) {
 }
