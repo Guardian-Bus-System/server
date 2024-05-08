@@ -6,4 +6,6 @@ import java.util.Optional
 
 interface BusRepository: JpaRepository<Bus, Int> {
   fun findByBusNumber(busNumber: Int): Optional<Bus>
+
+  fun existsByBusNumber(busNumber: Int): Boolean
 }
