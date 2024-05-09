@@ -1,8 +1,8 @@
-package com.gachi.gb.auth.security.authentication.provider
+package com.gachi.gb.auth.security.provider
 
 import com.gachi.gb.auth.security.JwtUtils
 import com.gachi.gb.auth.security.SimpleUserPrincipal
-import com.gachi.gb.auth.security.authentication.JwtAuthentication
+import com.gachi.gb.auth.security.token.JwtAuthentication
 import com.gachi.gb.common.exception.UnauthorizedException
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.authentication.BadCredentialsException

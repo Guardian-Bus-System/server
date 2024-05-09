@@ -1,10 +1,8 @@
 package com.gachi.gb.auth.security
 
-import com.gachi.gb.auth.security.authentication.jwt.JwtProperties
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
-import io.jsonwebtoken.security.Keys
 import jakarta.annotation.PostConstruct
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.GrantedAuthority
@@ -14,7 +12,6 @@ import org.springframework.stereotype.Component
 import java.security.Key
 import java.util.Base64
 import java.util.Date
-import java.util.stream.Collector
 import java.util.stream.Collectors
 import javax.crypto.spec.SecretKeySpec
 

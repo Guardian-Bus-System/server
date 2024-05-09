@@ -1,4 +1,4 @@
-package com.gachi.gb.auth.security.authentication
+package com.gachi.gb.auth.security.token
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.GrantedAuthority

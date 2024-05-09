@@ -1,5 +1,6 @@
 package com.gachi.gb.auth.security.authentication.jwt
 
+import com.gachi.gb.auth.security.JwtProperties
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*

@@ -1,7 +1,7 @@
-package com.gachi.gb.auth.security.authentication.provider
+package com.gachi.gb.auth.security.provider
 
 import com.gachi.gb.auth.security.SimpleUserPrincipal
-import com.gachi.gb.auth.security.authentication.IdPasswordAuthentication
+import com.gachi.gb.auth.security.token.IdPasswordAuthentication
 import com.gachi.gb.common.exception.UnauthorizedException
 import com.gachi.gb.user.service.UserService
 import org.springframework.context.annotation.Lazy

@@ -1,7 +1,7 @@
 package com.gachi.gb.auth.application.service
 
 import com.gachi.gb.auth.security.JwtUtils
-import com.gachi.gb.auth.security.authentication.jwt.JwtToken
+import com.gachi.gb.auth.application.domain.JwtToken
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Service
 

@@ -1,10 +1,9 @@
 package com.gachi.gb.auth.application.service
 
-import com.gachi.gb.auth.security.authentication.IdPasswordAuthentication
-import com.gachi.gb.auth.security.authentication.RefreshAuthentication
-import com.gachi.gb.auth.security.authentication.jwt.JwtToken
-import com.gachi.gb.auth.security.authentication.jwt.RefreshToken
-import com.gachi.gb.user.domain.ClassInfo
+import com.gachi.gb.auth.security.token.IdPasswordAuthentication
+import com.gachi.gb.auth.security.token.RefreshAuthentication
+import com.gachi.gb.auth.application.domain.JwtToken
+import com.gachi.gb.auth.application.domain.RefreshToken
 import com.gachi.gb.user.domain.Role
 import com.gachi.gb.user.domain.User
 import com.gachi.gb.user.repository.RoleRepository

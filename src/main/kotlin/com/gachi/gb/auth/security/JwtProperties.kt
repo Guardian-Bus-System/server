@@ -1,4 +1,4 @@
-package com.gachi.gb.auth.security.authentication.jwt
+package com.gachi.gb.auth.security
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.context.annotation.Configuration

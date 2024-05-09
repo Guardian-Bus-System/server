@@ -1,4 +1,4 @@
-package com.gachi.gb.auth.security.authentication.jwt
+package com.gachi.gb.auth.application.domain
 
 class RefreshToken (
   val refreshToken: String
