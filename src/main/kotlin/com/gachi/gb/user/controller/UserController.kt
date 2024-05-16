@@ -23,4 +23,13 @@ class UserController (
   fun getByUserId(@AuthUserId userId: String): CommonResponse<User> {
     return ok(userService.getUserByLoginId(userId))
   }
+
+  @Operation(summary = "본인 정보 변경", description = "본인 프로필에 대한 정보를 수정 가능")
+  @GetMapping("/me/update")
+  fun updateUser(
+    @AuthUserId userId: String,
+    @RequestBody dto: UserUpdateDto
+  ): CommonResponse<String> {
+    return ok(userService.update(userId, dto))
+  }
 }
