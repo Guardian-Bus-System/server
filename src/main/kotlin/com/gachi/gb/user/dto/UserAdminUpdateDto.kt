@@ -5,15 +5,28 @@ import java.util.UUID
 
 
 class UserAdminUpdateDto (
-  var role: String,
-
-  val id: UUID,
-  val loginId: String,
+  var id: UUID,
+  var loginId: String,
   var pw: String,
   var name: String,
-  var grade: Int,
-  var classNumber: Int,
+  var call: String,
+
+  //학급
+  var gradeClass: String,
   var number: Int,
+
+  //탑승 여부
+  var usingCk: Boolean,
+
+  //기존 탑승 호차
+  var boardingBus: Int,
+
+  //변경 탑승 호차
+  var boardingChangeBus: Int,
+
+  //추가할 권한
+  var role: String,
+
   var roles: MutableList<Role>,
 ) {
 }
