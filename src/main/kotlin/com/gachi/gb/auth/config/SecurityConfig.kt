@@ -72,6 +72,8 @@ class SecurityConfig (
 
     http.authorizeHttpRequests {
       //정적 소스 허용
+
+      // permitAll: 아무나 요청 허용
       it.requestMatchers(
         "/",
         "/css/**",
@@ -92,7 +94,7 @@ class SecurityConfig (
         .permitAll()
 
       it.anyRequest()
-        .authenticated()
+        .authenticated() //로그인 된 사용자만 허용
     }
 //    http.formLogin {
 //      it.loginPage("/login")
