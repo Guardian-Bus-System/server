@@ -4,6 +4,7 @@ import com.gachi.gb.auth.security.token.IdPasswordAuthentication
 import com.gachi.gb.auth.security.token.RefreshAuthentication
 import com.gachi.gb.auth.application.domain.JwtToken
 import com.gachi.gb.auth.application.domain.RefreshToken
+import com.gachi.gb.bus.repository.BusRepository
 import com.gachi.gb.user.domain.Role
 import com.gachi.gb.user.domain.User
 import com.gachi.gb.user.repository.RoleRepository
@@ -21,7 +22,8 @@ class AuthService (
   private val roleRepository: RoleRepository,
   private val passwordEncoder: PasswordEncoder,
   private val authenticationManager: AuthenticationManager,
-  private val createTokenService: CreateTokenService
+  private val createTokenService: CreateTokenService,
+  private val busRepository: BusRepository
 ) {
   fun join(dto: UserJoinDto): JwtToken {
     if(userRepository.existsByLoginId(dto.loginId)) {
@@ -32,14 +34,35 @@ class AuthService (
       roleRepository.save(Role("USER", "사용자"))
     }
 
+    val bus = busRepository.findByBusNumber(dto.boardingBus).orElseThrow {
+      IllegalArgumentException("해당되는 버스를 찾을 수 없습니다.")
+    }
+
+    //상세 호차 정보 반환
+    bus.lines = bus.lines.filter {
+      it.detailsLine == dto.detailsLine
+    }
+
+    //변경 버스 여부 -> 이떄 없으면 기존의 경로 반환
+    val changeBus = busRepository.findByBusNumber(dto.changeBoardingBus).orElse(bus)
+
+    changeBus.lines = changeBus.lines.filter {
+      it.detailsLine == dto.detailsLine
+    }
+
+
     val user = User(
       null,
       dto.loginId,
       passwordEncoder.encode(dto.pw),
       dto.name,
-      dto.grade,
-      dto.classNumber,
+      dto.call,
+      dto.gradeClass,
       dto.number,
+      dto.usingCk,
+      bus,
+      changeBus,
+      null,
       mutableListOf(role)
     )
 

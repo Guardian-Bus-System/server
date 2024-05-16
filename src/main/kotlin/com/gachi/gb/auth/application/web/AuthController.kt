@@ -1,8 +1,8 @@
 package com.gachi.gb.auth.application.web
 
 import com.gachi.gb.auth.application.service.AuthService
-import com.gachi.gb.auth.security.authentication.jwt.JwtToken
-import com.gachi.gb.auth.security.authentication.jwt.RefreshToken
+import com.gachi.gb.auth.application.domain.JwtToken
+import com.gachi.gb.auth.application.domain.RefreshToken
 import com.gachi.gb.common.response.CommonResponse
 import com.gachi.gb.common.response.CommonResponse.Companion.ok
 import com.gachi.gb.user.response.dto.UserJoinDto
