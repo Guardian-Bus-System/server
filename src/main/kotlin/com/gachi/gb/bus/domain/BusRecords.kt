@@ -9,6 +9,7 @@ import jakarta.persistence.Id
 import jakarta.persistence.OneToOne
 import java.time.LocalDate
 
+//버스 기록
 @Entity
 class BusRecords (
   @Id

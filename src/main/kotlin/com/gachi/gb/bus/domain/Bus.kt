@@ -1,30 +1,35 @@
 package com.gachi.gb.bus.domain
 
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
+import jakarta.persistence.*
 import org.hibernate.annotations.ColumnDefault
 import java.time.LocalDateTime
+import java.util.*
 
 @Entity
 class Bus (
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  var id: Int?,
+  @GeneratedValue(strategy = GenerationType.UUID)
+  var id: UUID?,
 
+  //호차 번호
   @Column(nullable = false)
   var busNumber: Int,
 
+  //호차 이름
   @Column(nullable = false)
-  var line: String,
+  var busName: String,
 
-  @Column(nullable = false)
-  var endLine: String,
+  //중간 지점
+  @OneToMany
+  var lines: List<BusDetails>,
 
+  //종착지
+  @OneToMany
+  var endLines: List<BusDetails>,
+
+  //좌석 수
   @Column(nullable = false)
-  var maxTable: Int,
+  var maxTable: Int = 45,
 
   @Column(nullable = false)
   var createdAt: LocalDateTime,

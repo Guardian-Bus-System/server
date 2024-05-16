@@ -3,6 +3,7 @@ package com.gachi.gb.bus.service.impl
 import com.gachi.gb.bus.domain.Bus
 import com.gachi.gb.bus.dto.BusAddAdminDto
 import com.gachi.gb.bus.dto.BusUpdateAdminDto
+import com.gachi.gb.bus.repository.BusDetailsRepository
 import com.gachi.gb.bus.repository.BusRepository
 import com.gachi.gb.bus.service.BusAdminService
 import org.springframework.stereotype.Service
@@ -11,7 +12,8 @@ import java.util.Date
 
 @Service
 class BusAdminServiceImpl (
-  private val busRepository: BusRepository
+  private val busRepository: BusRepository,
+  private val busDetailsRepository: BusDetailsRepository
 ): BusAdminService {
   override fun getBus(busId: Int): Bus {
     val bus = busRepository.findById(busId).orElseThrow {
@@ -30,11 +32,16 @@ class BusAdminServiceImpl (
       throw IllegalArgumentException("이미 해당 버스가 존재합니다.")
     }
 
+    val busLines = busDetailsRepository.findAllByName(dto.areaName)
+
+    val busEndLines = busDetailsRepository.findAllByName(dto.areaName)
+
     val newBus = Bus(
       null,
       dto.busNumber,
-      dto.line,
-      dto.endLine,
+      dto.busName,
+      busLines,
+      busEndLines,
       dto.maxTable,
       LocalDateTime.now(),
       LocalDateTime.now()
@@ -52,10 +59,13 @@ class BusAdminServiceImpl (
     val bus = busRepository.findById(busId).orElseThrow {
       IllegalArgumentException("해당 호차의 버스가 존재하지 않습니다.")
     }
+    val busLines = busDetailsRepository.findAllByName(dto.areaName)
+
+    val busEndLines = busDetailsRepository.findAllByName(dto.areaName)
 
     bus.busNumber = dto.busNumber
-    bus.line = dto.line
-    bus.endLine = dto.endLine
+    bus.lines = busLines
+    bus.endLines = busEndLines
     bus.maxTable = dto.maxTable
     bus.updateAt = LocalDateTime.now()
 
