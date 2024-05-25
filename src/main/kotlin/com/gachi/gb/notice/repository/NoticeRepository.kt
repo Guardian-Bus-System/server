@@ -7,4 +7,6 @@ import java.util.UUID
 
 interface NoticeRepository: JpaRepository<Notice, Int> {
   fun findById(id: UUID): Optional<Notice>
+
+  fun deleteById(noticeId: UUID): Void
 }
