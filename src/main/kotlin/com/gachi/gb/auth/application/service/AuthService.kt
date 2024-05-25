@@ -4,6 +4,7 @@ import com.gachi.gb.auth.security.token.IdPasswordAuthentication
 import com.gachi.gb.auth.security.token.RefreshAuthentication
 import com.gachi.gb.auth.application.domain.JwtToken
 import com.gachi.gb.auth.application.domain.RefreshToken
+import com.gachi.gb.bus.domain.BusDetails
 import com.gachi.gb.bus.repository.BusRepository
 import com.gachi.gb.user.domain.Role
 import com.gachi.gb.user.domain.User
@@ -41,14 +42,14 @@ class AuthService (
     //상세 호차 정보 반환
     bus.lines = bus.lines.filter {
       it.detailsLine == dto.detailsLine
-    }
+    } as MutableList<BusDetails>
 
     //변경 버스 여부 -> 이떄 없으면 기존의 경로 반환
     val changeBus = busRepository.findByBusNumber(dto.changeBoardingBus).orElse(bus)
 
     changeBus.lines = changeBus.lines.filter {
       it.detailsLine == dto.detailsLine
-    }
+    } as MutableList<BusDetails>
 
 
     val user = User(
