@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import java.util.UUID
 
+@Tag(name = "관리자_공지", description = "관리자용 공지 관리 API")
 @RestController
 @RequestMapping("/admin/notices")
 class NoticeAdminController(
