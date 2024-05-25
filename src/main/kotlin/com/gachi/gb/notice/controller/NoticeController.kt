@@ -15,9 +15,14 @@ import java.util.UUID
 class NoticeController (
   private val noticeService: NoticeService
 ) {
+  @Operation(summary = "모든 공지 조회", description = "모든 공지 리스트 조회")
+  @GetMapping("/")
+  fun getNotices(): CommonResponse<List<NoticeListResponseDto>> {
+    return ok(noticeService.getNotices())
+  }
 
   @GetMapping("/{notice}")
-  fun getNotice(@PathVariable notice: UUID): CommonResponse<Notice> {
+  fun getNotice(@PathVariable notice: UUID): CommonResponse<NoticeResponseDto> {
     return ok(noticeService.getNotice(notice))
   }
 
