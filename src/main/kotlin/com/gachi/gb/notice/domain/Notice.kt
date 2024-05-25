@@ -14,13 +14,13 @@ import java.util.UUID
 class Notice (
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
-  var id: UUID,
+  var id: UUID?,
 
   var title: String,
   var content: String,
   var tag: String,
   var createAt: LocalDateTime,
-  var updateAt: LocalDateTime,
+  var updateAt: LocalDateTime?,
 
   @OneToOne
   var uploadUser: User
