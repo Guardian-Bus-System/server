@@ -24,8 +24,8 @@ class BusAdminController (
   private val busAdminService: BusAdminService
 ) {
   @Operation(summary = "버스 상세 조회", description = "버스 id를 통한 개별 조회 API")
-  @GetMapping("/{busId}")
-  fun getBus(@PathVariable busId: Int): CommonResponse<Bus> {
+  @GetMapping("/{bus}")
+  fun getBus(@PathVariable("bus") busId: Int): CommonResponse<Bus> {
     return ok(busAdminService.getBus(busId))
   }
 
@@ -42,17 +42,17 @@ class BusAdminController (
   }
 
   @Operation(summary = "버스 수정 API", description = "버스 정보를 수정할 수 있는 API")
-  @PutMapping("/{busId}")
+  @PutMapping("/{bus}")
   fun updateBus(
-    @PathVariable busId: Int,
+    @PathVariable("bus") busId: Int,
     @RequestBody dto: BusUpdateAdminDto
   ): CommonResponse<String> {
     return ok(busAdminService.updateBus(busId, dto))
   }
 
   @Operation(summary = "버스 일괄 삭제 API", description = "버스를 개별 삭제 API")
-  @DeleteMapping("/{busId}")
-  fun deleteBus(@PathVariable busId: Int): CommonResponse<String> {
+  @DeleteMapping("/{bus}")
+  fun deleteBus(@PathVariable("bus") busId: Int): CommonResponse<String> {
     return ok(busAdminService.deleteBus(busId))
   }
 }
