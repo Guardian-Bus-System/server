@@ -1,11 +1,8 @@
 package com.gachi.gb.user.dto
 
-import com.gachi.gb.user.domain.Roles
-import java.util.UUID
+import java.util.*
 
-
-class UserAdminUpdateDto (
-  var id: UUID,
+class UserAdminAddDto (
   var loginId: String,
   var pw: String,
   var name: String,
@@ -17,8 +14,5 @@ class UserAdminUpdateDto (
 
   //탑승 여부
   var usingCk: Boolean,
-
-  var boardingCk: Boolean? = false,
-
 ) {
 }

@@ -1,15 +1,16 @@
 package com.gachi.gb.bus.domain
 
+import com.gachi.gb.rez.domain.BusReservation
 import jakarta.persistence.*
-import org.hibernate.annotations.ColumnDefault
+import org.hibernate.annotations.CacheConcurrencyStrategy
 import java.time.LocalDateTime
-import java.util.*
 
 @Entity
+@Cacheable
 class Bus (
   @Id
-  @GeneratedValue(strategy = GenerationType.UUID)
-  var id: UUID?,
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  var id: Int?,
 
   //호차 번호
   @Column(nullable = false)
@@ -20,12 +21,14 @@ class Bus (
   var busName: String,
 
   //중간 지점
-  @OneToMany
-  var lines: List<BusDetails>,
+  @OneToOne
+  @JoinColumn(name = "busCity_id")
+  var middleCity: BusCity,
 
   //종착지
-  @OneToMany
-  var endLines: List<BusDetails>,
+  @OneToOne
+  @JoinColumn(name = "endCity_id")
+  var endCity: BusCity,
 
   //좌석 수
   @Column(nullable = false)
@@ -35,6 +38,9 @@ class Bus (
   var createdAt: LocalDateTime,
 
   @Column(nullable = true)
-  var updateAt: LocalDateTime
+  var updateAt: LocalDateTime,
+
+  @OneToMany(mappedBy = "bus")
+  var busReservations: MutableList<BusReservation>?
 ) {
 }

@@ -17,8 +17,7 @@ class RuleController (
   private val ruleService: RuleService
 ) {
   @Operation(summary = "모든 규칙 조회", description = "모든 규칙 리스트 조회")
-  
-  @GetMapping("/")
+  @GetMapping
   fun getRoles(): CommonResponse<List<RuleListResponseDto>> {
     return ok(ruleService.getRules())
   }

@@ -1,8 +1,7 @@
 package com.gachi.gb.bus.controller
 
 import com.gachi.gb.bus.domain.Bus
-import com.gachi.gb.bus.dto.BusAddAdminDto
-import com.gachi.gb.bus.dto.BusUpdateAdminDto
+import com.gachi.gb.bus.dto.BusAdminDto
 import com.gachi.gb.bus.service.BusAdminService
 import com.gachi.gb.common.response.CommonResponse
 import com.gachi.gb.common.response.CommonResponse.Companion.ok
@@ -23,21 +22,21 @@ import org.springframework.web.bind.annotation.RestController
 class BusAdminController (
   private val busAdminService: BusAdminService
 ) {
+  @Operation(summary = "버스 목록 조회", description = "등록된 버스 목록 조회 API")
+  @GetMapping
+  fun getBuses(): CommonResponse<List<Bus>> {
+    return ok(busAdminService.getBuses())
+  }
+
   @Operation(summary = "버스 상세 조회", description = "버스 id를 통한 개별 조회 API")
   @GetMapping("/{bus}")
   fun getBus(@PathVariable("bus") busId: Int): CommonResponse<Bus> {
     return ok(busAdminService.getBus(busId))
   }
 
-  @Operation(summary = "버스 목록 조회", description = "등록된 버스 목록 조회 API")
-  @GetMapping("/")
-  fun getBuses(): CommonResponse<List<Bus>> {
-    return ok(busAdminService.getBuses())
-  }
-
   @Operation(summary = "버스 추가", description = "버스 추가 API")
   @GetMapping("/bus/add")
-  fun addBus(@RequestBody dto: BusAddAdminDto): CommonResponse<String> {
+  fun addBus(@RequestBody dto: BusAdminDto.Add): CommonResponse<String> {
     return ok(busAdminService.addBus(dto))
   }
 
@@ -45,7 +44,7 @@ class BusAdminController (
   @PutMapping("/{bus}")
   fun updateBus(
     @PathVariable("bus") busId: Int,
-    @RequestBody dto: BusUpdateAdminDto
+    @RequestBody dto: BusAdminDto.Update
   ): CommonResponse<String> {
     return ok(busAdminService.updateBus(busId, dto))
   }

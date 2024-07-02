@@ -36,9 +36,13 @@ class UserServiceImpl (
       IllegalArgumentException("유저가 존재하지 않습니다.")
     }
 
-    user.pw = passwordEncoder.encode(dto.pw)
-    user.gradeClass = dto.gradeClass
-    user.number = dto.number
+    if(passwordEncoder.matches(dto.pw, user.pw)) {
+      user.pw = passwordEncoder.encode(dto.changePw)
+      user.gradeClass = dto.gradeClass
+      user.number = dto.number
+    } else {
+      throw IllegalArgumentException("비밀번호가 같지 않습니다.")
+    }
 
     userRepository.save(user)
 

@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
-@Tag(name = "관리자_규칙", description = "관리자용 공지 API")
+@Tag(name = "관리자_규칙", description = "관리자용 규칙 API")
 @RestController
-@RequestMapping("/rules")
+@RequestMapping("/admin/rules")
 class RuleAdminController (
   private val ruleAdminService: RuleAdminService
 ) {
@@ -31,7 +31,7 @@ class RuleAdminController (
   }
 
   @Operation(summary = "규칙 추가", description = "규칙 추가 API")
-  @PostMapping("/rule/add")
+  @PostMapping("/rule")
   fun addRule(
     @RequestBody dto: RuleAddAdminDto,
     @AuthUserId userId: String
@@ -40,19 +40,19 @@ class RuleAdminController (
   }
 
   @Operation(summary = "규칙 수정", description = "규칙 수정 API")
-  @PutMapping("/{rule}/update")
+  @PutMapping("/{ruleId}")
   fun updateRule(
-    @PathVariable("rule") ruleId: Long,
+    @PathVariable("ruleId") ruleId: Long,
     @RequestBody dto: RuleUpdateAdminDto,
     @AuthUserId userId: String
   ): CommonResponse<String> {
     return ok(ruleAdminService.updateRule(ruleId, dto, userId))
   }
 
-  @Operation(summary = "규칙 수정", description = "규칙 수정 API")
-  @DeleteMapping("/{rule}/delete")
+  @Operation(summary = "규칙 삭제", description = "규칙 삭제 API")
+  @DeleteMapping("/{ruleId}")
   fun deleteRule(
-    @PathVariable("rule") ruleId: Long,
+    @PathVariable("ruleId") ruleId: Long,
     @AuthUserId userId: String
   ): CommonResponse<String> {
     return ok(ruleAdminService.deleteRule(ruleId, userId))

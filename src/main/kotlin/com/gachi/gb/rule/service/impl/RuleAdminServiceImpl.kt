@@ -33,7 +33,7 @@ class RuleAdminServiceImpl(
     }
 
     if(!ruleRepository.findByNumber(dto.number).isEmpty) {
-      throw IllegalArgumentException("이미 같은 번호의 공지가 존재합니다.")
+      throw IllegalArgumentException("이미 같은 번호의 규칙이 존재합니다.")
     }
 
     val rule = Rule(
@@ -47,7 +47,7 @@ class RuleAdminServiceImpl(
 
     ruleRepository.save(rule)
 
-    return "공지 추가가 완료 되었습니다."
+    return "규칙 추가가 완료 되었습니다."
   }
 
   override fun updateRule(ruleId: Long, dto: RuleUpdateAdminDto, userId: String): String {
@@ -66,7 +66,7 @@ class RuleAdminServiceImpl(
 
     ruleRepository.save(rule)
 
-    return "공지 수정이 완료 되었습니다."
+    return "규칙 수정이 완료 되었습니다."
   }
 
   override fun deleteRule(ruleId: Long, userId: String): String {
@@ -75,11 +75,11 @@ class RuleAdminServiceImpl(
     }
 
     val rule = ruleRepository.findById(ruleId).orElseThrow {
-      IllegalArgumentException("공지가 존재하지 않습니다.")
+      IllegalArgumentException("규칙이 존재하지 않습니다.")
     }
 
     ruleRepository.delete(rule)
 
-    return "공지 삭제가 완료 되었습니다."
+    return "규칙 삭제가 완료 되었습니다."
   }
 }

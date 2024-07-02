@@ -1,9 +1,7 @@
 package com.gachi.gb.bus.service
 
 import com.gachi.gb.bus.domain.Bus
-import com.gachi.gb.bus.dto.BusAddAdminDto
-import com.gachi.gb.bus.dto.BusUpdateAdminDto
-import org.springframework.data.jpa.repository.JpaRepository
+import com.gachi.gb.bus.dto.BusAdminDto
 
 interface BusAdminService {
 
@@ -11,11 +9,11 @@ interface BusAdminService {
 
   fun getBuses(): List<Bus>
 
-  fun addBus(dto: BusAddAdminDto): String
+  fun addBus(dto: BusAdminDto.Add): String
 
   fun updateBus(
     busId: Int,
-    dto: BusUpdateAdminDto
+    dto: BusAdminDto.Update
   ): String
 
   fun deleteBus(busId: Int): String

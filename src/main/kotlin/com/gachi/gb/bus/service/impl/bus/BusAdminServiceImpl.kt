@@ -1,19 +1,17 @@
-package com.gachi.gb.bus.service.impl
+package com.gachi.gb.bus.service.impl.bus
 
 import com.gachi.gb.bus.domain.Bus
-import com.gachi.gb.bus.dto.BusAddAdminDto
-import com.gachi.gb.bus.dto.BusUpdateAdminDto
-import com.gachi.gb.bus.repository.BusDetailsRepository
+import com.gachi.gb.bus.dto.BusAdminDto
+import com.gachi.gb.bus.repository.BusCityRepository
 import com.gachi.gb.bus.repository.BusRepository
 import com.gachi.gb.bus.service.BusAdminService
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
-import java.util.Date
 
 @Service
 class BusAdminServiceImpl (
   private val busRepository: BusRepository,
-  private val busDetailsRepository: BusDetailsRepository
+  private val busCityRepository: BusCityRepository
 ): BusAdminService {
   override fun getBus(busId: Int): Bus {
     val bus = busRepository.findById(busId).orElseThrow {
@@ -27,24 +25,29 @@ class BusAdminServiceImpl (
     return busRepository.findAll()
   }
 
-  override fun addBus(dto: BusAddAdminDto): String {
+  override fun addBus(dto: BusAdminDto.Add): String {
     if(busRepository.existsByBusNumber(dto.busNumber)) {
       throw IllegalArgumentException("이미 해당 버스가 존재합니다.")
     }
 
-    val busLines = busDetailsRepository.findAllByName(dto.areaName)
+    val busMiddleCity =  busCityRepository.findById(dto.middleCityId).orElseThrow {
+      IllegalArgumentException("해당 지역의 중간 지점이 존재하지 않습니다.")
+    }
 
-    val busEndLines = busDetailsRepository.findAllByName(dto.areaName)
+    val busEndCity =  busCityRepository.findById(dto.endCityId).orElseThrow {
+      IllegalArgumentException("해당 지역의 종착 지점이 존재하지 않습니다.")
+    }
 
     val newBus = Bus(
       null,
       dto.busNumber,
       dto.busName,
-      busLines,
-      busEndLines,
+      busMiddleCity,
+      busEndCity,
       dto.maxTable,
       LocalDateTime.now(),
-      LocalDateTime.now()
+      LocalDateTime.now(),
+      null,
     )
 
     busRepository.save(newBus)
@@ -54,18 +57,25 @@ class BusAdminServiceImpl (
 
   override fun updateBus(
     busId: Int,
-    dto: BusUpdateAdminDto
+    dto: BusAdminDto.Update
   ): String {
     val bus = busRepository.findById(busId).orElseThrow {
       IllegalArgumentException("해당 호차의 버스가 존재하지 않습니다.")
     }
-    val busLines = busDetailsRepository.findAllByName(dto.areaName)
 
-    val busEndLines = busDetailsRepository.findAllByName(dto.areaName)
+    val busMiddleCity =  busCityRepository.findById(dto.middleCityId).orElseThrow {
+      IllegalArgumentException("해당 지역의 중간 지점이 존재하지 않습니다.")
+    }
+
+    val busEndCity =  busCityRepository.findById(dto.endCityId).orElseThrow {
+      IllegalArgumentException("해당 지역의 종착 지점이 존재하지 않습니다.")
+    }
+
 
     bus.busNumber = dto.busNumber
-    bus.lines = busLines
-    bus.endLines = busEndLines
+    bus.busName = dto.busName
+    bus.middleCity = busMiddleCity
+    bus.endCity = busEndCity
     bus.maxTable = dto.maxTable
     bus.updateAt = LocalDateTime.now()
 

@@ -5,7 +5,7 @@ import java.util.UUID
 
 interface BusService {
 
-  fun getBus(busId: UUID): Bus
+  fun getBus(busId: Int): Bus
 
   fun getBuses(): List<Bus>
 

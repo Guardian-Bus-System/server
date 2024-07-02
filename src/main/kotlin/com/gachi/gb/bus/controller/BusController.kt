@@ -22,7 +22,7 @@ class BusController (
   //버스 일괄 조회
   @Operation(summary = "버스 상세 조회", description = "버스 id를 통한 개별 조회 API")
   @GetMapping("/{bus}")
-  fun getBus(@PathVariable("bus") busId: UUID): CommonResponse<Bus> {
+  fun getBus(@PathVariable("bus") busId: Int): CommonResponse<Bus> {
     return ok(busService.getBus(busId))
   }
 
