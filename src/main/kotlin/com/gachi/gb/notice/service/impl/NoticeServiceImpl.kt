@@ -25,13 +25,18 @@ class NoticeServiceImpl(
       IllegalArgumentException("공지사항이 존재하지 않습니다.")
     }
 
-    val noticeView = NoticeViews(
-      null,
-      notice,
-      user.id
-    )
+    val noticeViewsCK = notice.views?.any {
+      it.views == user.id
+    }?: false
 
-    noticeViewsRepository.save(noticeView)
+    if(!noticeViewsCK) {
+      val newNoticeView = NoticeViews(
+        null,
+        notice,
+        user.id
+      )
+      noticeViewsRepository.save(newNoticeView)
+    }
 
     return NoticeResponseDto(
       notice.id,
