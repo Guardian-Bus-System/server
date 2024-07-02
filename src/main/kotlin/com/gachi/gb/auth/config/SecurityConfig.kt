@@ -71,7 +71,8 @@ class SecurityConfig (
     }
 
     http.authorizeHttpRequests {
-      //정적 소스 허용
+
+//      it.requestMatchers("/admin/**").hasRole("ADMIN")
 
       // permitAll: 아무나 요청 허용
       it.requestMatchers(
@@ -81,13 +82,15 @@ class SecurityConfig (
         "/js/**",
         "/images/**",
         "/png/**",
-        "/jpg/**"
+        "/jpg/**",
+        "/swagger-ui"
       ).permitAll()
 
       it.requestMatchers(
         "/**",
         "/auth/**",
-        "/user/**"
+        "/user/**",
+        "/notices/**"
       ).permitAll()
 
       it.requestMatchers(HttpMethod.OPTIONS, "/**/*")
@@ -96,14 +99,6 @@ class SecurityConfig (
       it.anyRequest()
         .authenticated() //로그인 된 사용자만 허용
     }
-//    http.formLogin {
-//      it.loginPage("/login")
-//        .defaultSuccessUrl("/articles")
-//    }
-//    http.logout {
-//      it.logoutSuccessUrl("/login")
-//        .invalidateHttpSession(true)
-//    }
 
     //provider등록
     authProviders!!.forEach {
@@ -116,8 +111,7 @@ class SecurityConfig (
   fun corsConfigurationSource(): CorsConfigurationSource? {
     val configuration = CorsConfiguration()//요청이 허용되지 않은 새 인스턴스
     configuration.allowedOriginPatterns = listOf(
-      // 추후 도메인 추가
-      "**"
+      "*"
     )
     if (Arrays.stream(env.activeProfiles)
         .anyMatch { profile: String -> "dev" == profile || "local" == profile || "linkprod" == profile || "staging" == profile }
