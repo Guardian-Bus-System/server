@@ -1,13 +1,13 @@
 package com.gachi.gb.notice.service
 
-import com.gachi.gb.notice.domain.Notice
 import com.gachi.gb.notice.dto.response.NoticeListResponseDto
 import com.gachi.gb.notice.dto.response.NoticeResponseDto
-import java.util.UUID
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 
 interface NoticeService {
-  fun getNotice(id: UUID): NoticeResponseDto
+  fun getNotice(id: Int, userId: String): NoticeResponseDto
 
-  fun getNotices(): List<NoticeListResponseDto>
+  fun getNotices(userId: String, pageable: Pageable): Page<NoticeListResponseDto>
 
 }

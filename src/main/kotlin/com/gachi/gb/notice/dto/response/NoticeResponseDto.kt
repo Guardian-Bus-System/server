@@ -5,13 +5,9 @@ import java.time.LocalDateTime
 import java.util.UUID
 
 class NoticeResponseDto (
-  var id: UUID?,
-  var title: String,
+  var id: Int?,
   var content: String,
-  var tag: String,
   var createAt: LocalDateTime,
-  var updateAt: LocalDateTime?,
-
-  var uploadUser: User
+  var updateAt: LocalDateTime?
 ) {
 }
