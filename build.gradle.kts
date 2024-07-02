@@ -40,6 +40,9 @@ dependencies {
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
 
+  //누리고 서비스
+  implementation("net.nurigo:sdk:4.3.0")
+
   runtimeOnly("com.mysql:mysql-connector-j")
   testImplementation("org.springframework.boot:spring-boot-starter-test")
   testImplementation("org.springframework.security:spring-security-test")
@@ -49,6 +52,8 @@ dependencies {
 //  implementation("io.springfox:springfox-swagger2:3.0.0")
 //  implementation("io.springfox:springfox-swagger-ui:3.0.0")
   implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2")
+//  implementation("io.springfox:springfox-boot-starter:3.0.0")
+//  implementation("io.springfox:springfox-swagger-ui:3.0.0")
 }
 
 tasks.withType<KotlinCompile> {
