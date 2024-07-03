@@ -28,7 +28,7 @@ class BusAdminController (
   }
 
   @Operation(summary = "버스 추가", description = "버스 추가 API")
-  @GetMapping("/bus/add")
+  @PostMapping("/bus")
   fun addBus(@RequestBody dto: BusAdminDto.Add): CommonResponse<String> {
     return ok(busAdminService.addBus(dto))
   }
