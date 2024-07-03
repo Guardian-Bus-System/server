@@ -1,6 +1,5 @@
-package com.gachi.gb.bus.service.impl
+package com.gachi.gb.bus.service.impl.city
 
-import com.gachi.gb.bus.domain.BusCity
 import com.gachi.gb.bus.dto.BusCityDto
 import com.gachi.gb.bus.repository.BusCityRepository
 import com.gachi.gb.bus.service.BusCityService

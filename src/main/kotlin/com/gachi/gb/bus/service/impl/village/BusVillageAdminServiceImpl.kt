@@ -1,4 +1,4 @@
-package com.gachi.gb.bus.service.impl
+package com.gachi.gb.bus.service.impl.village
 
 import com.gachi.gb.bus.domain.BusVillage
 import com.gachi.gb.bus.dto.BusVillageDto

@@ -1,4 +1,4 @@
-package com.gachi.gb.bus.service.impl.bus
+package com.gachi.gb.bus.service.impl
 
 import com.gachi.gb.bus.domain.Bus
 import com.gachi.gb.bus.repository.BusRepository

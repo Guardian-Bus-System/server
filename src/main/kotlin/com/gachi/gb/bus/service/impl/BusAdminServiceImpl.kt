@@ -1,4 +1,4 @@
-package com.gachi.gb.bus.service.impl.bus
+package com.gachi.gb.bus.service.impl
 
 import com.gachi.gb.bus.domain.Bus
 import com.gachi.gb.bus.dto.BusAdminDto
@@ -14,11 +14,9 @@ class BusAdminServiceImpl (
   private val busCityRepository: BusCityRepository
 ): BusAdminService {
   override fun getBus(busId: Int): Bus {
-    val bus = busRepository.findById(busId).orElseThrow {
+    return busRepository.findById(busId).orElseThrow {
       IllegalArgumentException("해당 호차의 버스가 존재하지 않습니다.")
     }
-
-    return bus
   }
 
   override fun getBuses(): List<Bus> {
@@ -30,20 +28,22 @@ class BusAdminServiceImpl (
       throw IllegalArgumentException("이미 해당 버스가 존재합니다.")
     }
 
-    val busMiddleCity =  busCityRepository.findById(dto.middleCityId).orElseThrow {
-      IllegalArgumentException("해당 지역의 중간 지점이 존재하지 않습니다.")
+    val busCity = busCityRepository.findById(dto.titleCity).orElseThrow {
+      IllegalArgumentException("지역이 존재하지 않습니다.")
     }
 
-    val busEndCity =  busCityRepository.findById(dto.endCityId).orElseThrow {
-      IllegalArgumentException("해당 지역의 종착 지점이 존재하지 않습니다.")
-    }
+    val matchingTowns = busCity.towns?.filter {
+      it.id in dto.towns
+    } ?: emptyList()
+
+
 
     val newBus = Bus(
       null,
       dto.busNumber,
       dto.busName,
-      busMiddleCity,
-      busEndCity,
+      busCity.cityName,
+      matchingTowns.toMutableList(),
       dto.maxTable,
       LocalDateTime.now(),
       LocalDateTime.now(),
@@ -63,19 +63,22 @@ class BusAdminServiceImpl (
       IllegalArgumentException("해당 호차의 버스가 존재하지 않습니다.")
     }
 
-    val busMiddleCity =  busCityRepository.findById(dto.middleCityId).orElseThrow {
-      IllegalArgumentException("해당 지역의 중간 지점이 존재하지 않습니다.")
+    val busCity = busCityRepository.findById(dto.titleCity).orElseThrow {
+      IllegalArgumentException("지역이 존재하지 않습니다.")
     }
 
-    val busEndCity =  busCityRepository.findById(dto.endCityId).orElseThrow {
-      IllegalArgumentException("해당 지역의 종착 지점이 존재하지 않습니다.")
+    // busCity의 towns와 dto의 towns를 비교하여 일치하는 값을 추출
+    val matchingTowns = busCity.towns?.filter { it.townName in dto.towns } ?: emptyList()
+
+    if (matchingTowns.isEmpty()) {
+      throw IllegalArgumentException("일치하는 마을이 없습니다.")
     }
 
-
+    // 기존 버스 엔티티 업데이트
     bus.busNumber = dto.busNumber
     bus.busName = dto.busName
-    bus.middleCity = busMiddleCity
-    bus.endCity = busEndCity
+    bus.titleCityName = busCity.cityName
+    bus.towns = matchingTowns.toMutableList()
     bus.maxTable = dto.maxTable
     bus.updateAt = LocalDateTime.now()
 
