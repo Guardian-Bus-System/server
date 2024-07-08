@@ -1,7 +1,7 @@
 package com.gachi.gb.bus.service.impl.town
 
 import com.gachi.gb.bus.domain.BusTown
-import com.gachi.gb.bus.dto.BusTownDto
+import com.gachi.gb.bus.dto.BusTownAdminDto
 import com.gachi.gb.bus.repository.BusCityRepository
 import com.gachi.gb.bus.repository.BusTownRepository
 import com.gachi.gb.bus.service.BusTownAdminService
@@ -12,7 +12,19 @@ class BusTownAdminServiceImpl(
   private val busCityRepository: BusCityRepository,
   private val busTownRepository: BusTownRepository
 ): BusTownAdminService {
-  override fun addTown(cityId: Int, dto: BusTownDto.Add): String {
+  override fun getTown(townId: Int): BusTownAdminDto.Get {
+    val busTown = busTownRepository.findById(townId).orElseThrow {
+      IllegalArgumentException("마을들이 존재하지 않습니다")
+    }
+
+    return BusTownAdminDto.Get(
+      busTown.id,
+      busTown.townName,
+      busTown.busVillages!!
+    )
+  }
+
+  override fun addTown(cityId: Int, dto: BusTownAdminDto.Add): String {
     val busCity = busCityRepository.findById(cityId).orElseThrow { 
       IllegalArgumentException("해당 마을의 상위 도시가 존재하지 않습니다")
     }
@@ -29,7 +41,7 @@ class BusTownAdminServiceImpl(
     return "마을 추가가 완료되었습니다."
   }
 
-  override fun updateTown(cityId: Int, townId: Int, dto: BusTownDto.Update): String {
+  override fun updateTown(cityId: Int, townId: Int, dto: BusTownAdminDto.Update): String {
     val busCity = busCityRepository.findById(cityId).orElseThrow {
       IllegalArgumentException("해당 마을의 상위 도시가 존재하지 않습니다")
     }

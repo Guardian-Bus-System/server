@@ -10,6 +10,10 @@ interface BusReservationService {
 
   fun updateBusReservation(userId: String, dto: BusReservationDto.Update): String
 
+  fun updateOnReservation(userId: String, dto: BusReservationDto.OnUpdate, reservationId: UUID): String
+
   fun deleteBusReservation(userId: String, reservationId: UUID): String
+
+  fun markAsNotBoarded(userId: String): String
 
 }

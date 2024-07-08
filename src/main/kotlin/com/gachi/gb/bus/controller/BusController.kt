@@ -28,7 +28,7 @@ class BusController (
 
   //버스 목록 조회
   @Operation(summary = "버스 목록 조회", description = "버스의 목록을 조회할 수 있음")
-  @GetMapping("/")
+  @GetMapping
   fun getBuses(): CommonResponse<List<Bus>> {
     return ok(busService.getBuses())
   }

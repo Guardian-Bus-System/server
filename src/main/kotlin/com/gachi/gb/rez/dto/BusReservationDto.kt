@@ -10,6 +10,7 @@ class BusReservationDto {
     var id: UUID?,
     var busInfo: Bus,
     var endCity: String,
+    var onCk: Boolean?,
     var createAt: LocalDateTime,
     var updateAt: LocalDateTime?,
   )
@@ -22,6 +23,10 @@ class BusReservationDto {
   class Update (
     var busNumber: Int,
     var endCity: String
+  )
+
+  class OnUpdate (
+    var onCk: Boolean
   )
 
 }

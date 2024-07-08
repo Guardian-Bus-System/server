@@ -31,8 +31,8 @@ class BusReservationController (
     return ok(busReservationsService.getBusReservation(userId))
   }
 
-  @Operation(summary = "사용자 버스 목록 추가")
-  @PostMapping("/")
+  @Operation(summary = "예약 추가")
+  @PostMapping
   fun addBusReservation(
     @AuthUserId userId: String,
     @RequestBody dto: BusReservationDto.Add
@@ -40,13 +40,22 @@ class BusReservationController (
     return ok(busReservationsService.addBusReservation(userId, dto))
   }
 
-  @Operation(summary = "사용자 버스 예약")
-  @PutMapping("/")
+  @Operation(summary = "예약 수정")
+  @PutMapping
   fun updateBusReservation(
     @AuthUserId userId: String,
     @RequestBody dto: BusReservationDto.Update
   ): CommonResponse<String> {
     return ok(busReservationsService.updateBusReservation(userId, dto))
+  }
+
+  @PutMapping("/{reservationId}")
+  fun updateOnReservation(
+    @AuthUserId userId: String,
+    @RequestBody dto: BusReservationDto.OnUpdate,
+    @PathVariable reservationId: UUID
+  ): CommonResponse<String> {
+    return ok(busReservationsService.updateOnReservation(userId, dto, reservationId))
   }
 
   @Operation(summary = "사용자 버스 목록 삭제")

@@ -66,6 +66,7 @@ class SecurityConfig (
 
 //    }
 
+    //session 비활성화
     http.sessionManagement {
       it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
     }
@@ -82,22 +83,34 @@ class SecurityConfig (
         "/js/**",
         "/images/**",
         "/png/**",
-        "/jpg/**",
-        "/swagger-ui"
+        "/jpg/**"
       ).permitAll()
 
+      //로그인 전
       it.requestMatchers(
         "/**",
-        "/auth/**",
-        "/user/**",
-        "/notices/**"
+        "/auth/**"
       ).permitAll()
+
+      //로그인 이후
+      it.requestMatchers(
+        "/user/**",
+        "/bus/**",
+        "/buses/**",
+        "/notices/**",
+        "/reservations/**",
+        "/rules/**"
+      ).authenticated()
+
+      it.requestMatchers(
+        "/admin/**"
+      ).hasRole("ADMIN")
 
       it.requestMatchers(HttpMethod.OPTIONS, "/**/*")
         .permitAll()
 
       it.anyRequest()
-        .authenticated() //로그인 된 사용자만 허용
+        .authenticated()
     }
 
     //provider등록

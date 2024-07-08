@@ -1,5 +1,6 @@
 package com.gachi.gb.bus.domain
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.gachi.gb.rez.domain.BusReservation
 import jakarta.persistence.*
 import org.hibernate.annotations.CacheConcurrencyStrategy
@@ -20,15 +21,13 @@ class Bus (
   @Column(nullable = false)
   var busName: String,
 
-  //중간 지점
-  @OneToOne
-  @JoinColumn(name = "busCity_id")
-  var middleCity: BusCity,
+  //지역
+  @Column(nullable = false)
+  var titleCityName: String,
 
-  //종착지
-  @OneToOne
-  @JoinColumn(name = "endCity_id")
-  var endCity: BusCity,
+  @OneToMany
+  @JoinColumn(name = "busTown_id")
+  var towns: MutableList<BusTown>,
 
   //좌석 수
   @Column(nullable = false)
@@ -41,6 +40,7 @@ class Bus (
   var updateAt: LocalDateTime,
 
   @OneToMany(mappedBy = "bus")
+  @JsonIgnore
   var busReservations: MutableList<BusReservation>?
 ) {
 }

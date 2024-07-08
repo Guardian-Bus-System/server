@@ -29,6 +29,7 @@ class BusReservationServiceImpl (
       busReservation.id,
       busReservation.bus,
       busReservation.endCity,
+      busReservation.onCk,
       busReservation.createAt,
       busReservation.updateAt
     )
@@ -47,10 +48,19 @@ class BusReservationServiceImpl (
       throw IllegalArgumentException("이미 버스 예약 목록이 존재합니다.")
     }
 
+    if(bus.maxTable != 0) {
+      bus.maxTable -= 1;
+    } else {
+      throw IllegalArgumentException("버스에 탑승인원이 초과하였습니다.")
+    }
+
+    busRepository.save(bus)
+
     val busReservation = BusReservation(
       null,
       bus,
       dto.endCity,
+      true,
       LocalDateTime.now(),
       null,
       user
@@ -78,6 +88,7 @@ class BusReservationServiceImpl (
       busReservation.id,
       bus,
       dto.endCity,
+      busReservation.onCk,
       busReservation.createAt,
       LocalDateTime.now(),
       user,
@@ -86,6 +97,22 @@ class BusReservationServiceImpl (
     busReservationsRepository.save(updateBusReservation)
 
     return "버스 예약 정보가 수정 되었습니다."
+  }
+
+  override fun updateOnReservation(userId: String, dto: BusReservationDto.OnUpdate, reservationId: UUID): String {
+    userRepository.findByLoginId(userId).orElseThrow {
+      IllegalArgumentException("해당 유저가 존재하지 않습니다.")
+    }
+
+    val busReservation = busReservationsRepository.findById(reservationId).orElseThrow {
+      IllegalArgumentException("해당 버스 예약 목록이 존재하지 않습니다.")
+    }
+
+    busReservation.onCk = dto.onCk
+
+    busReservationsRepository.save(busReservation)
+
+    return "탑승 여부 수정이 완료되었습니다."
   }
 
   override fun deleteBusReservation(userId: String, reservationId: UUID): String {
@@ -97,8 +124,30 @@ class BusReservationServiceImpl (
       IllegalArgumentException("해당 버스 예약 목록이 존재하지 않습니다.")
     }
 
+    val bus = busReservation.bus
+
+    bus.maxTable += 1
+
+    busRepository.save(bus)
+
     busReservationsRepository.delete(busReservation)
 
     return "버스 예약 정보가 초기화 되었습니다."
+  }
+
+  override fun markAsNotBoarded(userId: String): String {
+    val user = userRepository.findByLoginId(userId).orElseThrow {
+      IllegalArgumentException("유저가 존재하지 않습니다.")
+    }
+
+    val busReservation = busReservationsRepository.findByUser(user).orElseThrow {
+      IllegalArgumentException("해당 유저의 예약 목록이 존재하지 않습니다.")
+    }
+
+    busReservation.onCk = false
+
+    busReservationsRepository.save(busReservation)
+
+    return "\"탑승하지 않음\"으로 설정 되었습니다."
   }
 }

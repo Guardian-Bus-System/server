@@ -5,8 +5,9 @@ class BusAdminDto {
     var busNumber: Int,
     var busName: String,
     //지역
-    var middleCityId: Int,
-    var endCityId: Int,
+    var titleCity: Int,
+
+    var towns: MutableList<Int>,
 
     var maxTable: Int,
   ) {
@@ -16,8 +17,9 @@ class BusAdminDto {
     var busNumber: Int,
     var busName: String,
     //지역
-    var middleCityId: Int,
-    var endCityId: Int,
+    var titleCity: Int,
+
+    var towns: MutableList<String>,
 
     var maxTable: Int,
   ) {

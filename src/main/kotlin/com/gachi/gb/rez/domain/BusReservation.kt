@@ -22,6 +22,10 @@ class BusReservation (
   @Column(nullable = false)
   var endCity: String,
 
+  //탑승 여부
+  @Column(nullable = true, columnDefinition = "BOOLEAN DEFAULT TRUE")
+  var onCk: Boolean = false,
+
   @Column(nullable = false, updatable = false)
   var createAt: LocalDateTime,
 
