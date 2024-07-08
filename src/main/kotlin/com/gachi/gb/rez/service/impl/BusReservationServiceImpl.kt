@@ -88,7 +88,7 @@ class BusReservationServiceImpl (
       busReservation.id,
       bus,
       dto.endCity,
-      busReservation.onCk,
+      true,
       busReservation.createAt,
       LocalDateTime.now(),
       user,
