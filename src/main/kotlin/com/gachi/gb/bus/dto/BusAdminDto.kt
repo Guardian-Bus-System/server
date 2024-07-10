@@ -19,7 +19,7 @@ class BusAdminDto {
     //지역
     var titleCity: Int,
 
-    var towns: MutableList<String>,
+    var towns: MutableList<Int>,
 
     var maxTable: Int,
   ) {

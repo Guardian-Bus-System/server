@@ -68,7 +68,7 @@ class BusAdminServiceImpl (
     }
 
     // busCity의 towns와 dto의 towns를 비교하여 일치하는 값을 추출
-    val matchingTowns = busCity.towns?.filter { it.townName in dto.towns } ?: emptyList()
+    val matchingTowns = busCity.towns?.filter { it.id in dto.towns } ?: emptyList()
 
     if (matchingTowns.isEmpty()) {
       throw IllegalArgumentException("일치하는 마을이 없습니다.")

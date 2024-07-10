@@ -40,6 +40,8 @@ dependencies {
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
 
+  //
+  implementation("org.springframework.boot:spring-boot-starter-data-redis")
   //누리고 서비스
   implementation("net.nurigo:sdk:4.3.0")
 

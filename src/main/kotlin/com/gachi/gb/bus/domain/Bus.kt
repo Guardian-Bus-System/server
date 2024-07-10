@@ -25,9 +25,8 @@ class Bus (
   @Column(nullable = false)
   var titleCityName: String,
 
-  @OneToMany
-  @JoinColumn(name = "busTown_id")
-  var towns: MutableList<BusTown>,
+  @ManyToMany
+  var towns: MutableList<BusTown>?,
 
   //좌석 수
   @Column(nullable = false)
