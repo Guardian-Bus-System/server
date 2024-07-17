@@ -15,6 +15,15 @@ class BusReservationDto {
     var updateAt: LocalDateTime?,
   )
 
+  class GetList (
+    var id: UUID?,
+    var busInfo: Bus,
+    var endCity: String,
+    var onCk: Boolean?,
+    var createAt: LocalDateTime,
+    var updateAt: LocalDateTime?,
+  )
+
   class Add (
     var busNumber: Int,
     var endCity: String

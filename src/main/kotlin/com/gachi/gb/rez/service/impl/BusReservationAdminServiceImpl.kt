@@ -5,25 +5,20 @@ import com.gachi.gb.rez.domain.BusReservation
 import com.gachi.gb.rez.dto.BusReservationDto
 import com.gachi.gb.rez.repository.BusReservationRepository
 import com.gachi.gb.rez.service.BusReservationAdminService
-import com.gachi.gb.rez.service.BusReservationService
 import com.gachi.gb.user.repository.UserRepository
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 import java.util.*
 
 @Service
-class BusReservationServiceImpl (
+class BusReservationAdminServiceImpl (
   private val busReservationsRepository: BusReservationRepository,
   private val busRepository: BusRepository,
   private val userRepository: UserRepository
-): BusReservationService {
-  override fun getBusReservation(userId: String): BusReservationDto.Get {
-    val user = userRepository.findByLoginId(userId).orElseThrow {
-      IllegalArgumentException("해당 유저가 존재하지 않습니다.")
-    }
-
-    val busReservation = busReservationsRepository.findByUser(user).orElseThrow {
-      IllegalArgumentException("버스 예약 목록이 존재하지 않습니다.")
+): BusReservationAdminService {
+  override fun getBusReservation(reservationsId: UUID): BusReservationDto.Get {
+    val busReservation = busReservationsRepository.findById(reservationsId).orElseThrow {
+      IllegalArgumentException("해당 예약목록이 존재하지 않습니다.")
     }
 
     return BusReservationDto.Get(
@@ -34,6 +29,19 @@ class BusReservationServiceImpl (
       busReservation.createAt,
       busReservation.updateAt
     )
+  }
+
+  override fun getBusReservations(): List<BusReservationDto.GetList> {
+    return busReservationsRepository.findAll().map {
+        BusReservationDto.GetList(
+          it.id,
+          it.bus,
+          it.endCity,
+          it.onCk,
+          it.createAt,
+          it.updateAt
+        )
+    }
   }
 
   override fun addBusReservation(userId: String, dto: BusReservationDto.Add): String {
