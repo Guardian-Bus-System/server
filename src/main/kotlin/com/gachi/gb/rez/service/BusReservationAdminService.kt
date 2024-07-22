@@ -8,6 +8,8 @@ interface BusReservationAdminService {
 
   fun getBusReservations(): List<BusReservationDto.GetList>
 
+  fun getBusReservationsByBusId(busId: Int): List<BusReservationDto.GetList>
+
   fun addBusReservation(userId: String, dto: BusReservationDto.Add): String
 
   fun updateBusReservation(userId: String, dto: BusReservationDto.Update): String

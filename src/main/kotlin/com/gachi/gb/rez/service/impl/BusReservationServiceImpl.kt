@@ -4,7 +4,6 @@ import com.gachi.gb.bus.repository.BusRepository
 import com.gachi.gb.rez.domain.BusReservation
 import com.gachi.gb.rez.dto.BusReservationDto
 import com.gachi.gb.rez.repository.BusReservationRepository
-import com.gachi.gb.rez.service.BusReservationAdminService
 import com.gachi.gb.rez.service.BusReservationService
 import com.gachi.gb.user.repository.UserRepository
 import org.springframework.stereotype.Service

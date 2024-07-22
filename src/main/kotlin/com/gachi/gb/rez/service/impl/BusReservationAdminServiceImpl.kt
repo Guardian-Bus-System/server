@@ -44,6 +44,23 @@ class BusReservationAdminServiceImpl (
     }
   }
 
+  override fun getBusReservationsByBusId(busId: Int): List<BusReservationDto.GetList> {
+    val bus = busRepository.findById(busId).orElseThrow {
+      IllegalArgumentException("해당 버스가 존재하지 않습니다.")
+    }
+
+    return busReservationsRepository.findAllByBus(bus).map {
+      BusReservationDto.GetList(
+        it.id,
+        it.bus,
+        it.endCity,
+        it.onCk,
+        it.createAt,
+        it.updateAt
+      )
+    }
+  }
+
   override fun addBusReservation(userId: String, dto: BusReservationDto.Add): String {
     val user = userRepository.findByLoginId(userId).orElseThrow {
       IllegalArgumentException("해당 유저가 존재하지 않습니다.")

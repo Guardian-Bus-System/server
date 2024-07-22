@@ -37,6 +37,14 @@ class BusReservationAdminController (
     return ok(busReservationsAdminService.getBusReservations())
   }
 
+  @Operation(summary = "호차별 탑승 예약 목록 조회")
+  @GetMapping("/{busId}")
+  fun getBusReservationsByBusId(
+    @PathVariable busId: Int
+  ): CommonResponse<List<BusReservationDto.GetList>> {
+    return ok(busReservationsAdminService.getBusReservationsByBusId(busId))
+  }
+
   @Operation(summary = "예약 목록 추가")
   @PostMapping
   fun addBusReservation(

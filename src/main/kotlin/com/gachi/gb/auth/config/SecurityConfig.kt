@@ -83,7 +83,8 @@ class SecurityConfig (
         "/js/**",
         "/images/**",
         "/png/**",
-        "/jpg/**"
+        "/jpg/**",
+        "/api/swagger-ui/**"
       ).permitAll()
 
       //로그인 전
