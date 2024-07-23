@@ -23,6 +23,7 @@ class BusReservationAdminServiceImpl (
 
     return BusReservationDto.Get(
       busReservation.id,
+      busReservation.user,
       busReservation.bus,
       busReservation.endCity,
       busReservation.onCk,
@@ -35,6 +36,7 @@ class BusReservationAdminServiceImpl (
     return busReservationsRepository.findAll().map {
         BusReservationDto.GetList(
           it.id,
+          it.user,
           it.bus,
           it.endCity,
           it.onCk,
@@ -52,6 +54,7 @@ class BusReservationAdminServiceImpl (
     return busReservationsRepository.findAllByBus(bus).map {
       BusReservationDto.GetList(
         it.id,
+        it.user,
         it.bus,
         it.endCity,
         it.onCk,

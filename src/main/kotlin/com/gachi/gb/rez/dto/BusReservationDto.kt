@@ -1,13 +1,14 @@
 package com.gachi.gb.rez.dto
 
 import com.gachi.gb.bus.domain.Bus
-import org.apache.catalina.User
+import com.gachi.gb.user.domain.User
 import java.time.LocalDateTime
 import java.util.UUID
 
 class BusReservationDto {
   class Get (
     var id: UUID?,
+    var user: User,
     var busInfo: Bus,
     var endCity: String,
     var onCk: Boolean?,
@@ -17,6 +18,7 @@ class BusReservationDto {
 
   class GetList (
     var id: UUID?,
+    var user: User,
     var busInfo: Bus,
     var endCity: String,
     var onCk: Boolean?,
