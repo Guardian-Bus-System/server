@@ -35,42 +35,6 @@ class BusReservationServiceImpl (
     )
   }
 
-  override fun addBusReservation(userId: String, dto: BusReservationDto.Add): String {
-    val user = userRepository.findByLoginId(userId).orElseThrow {
-      IllegalArgumentException("해당 유저가 존재하지 않습니다.")
-    }
-
-    val bus = busRepository.findByBusNumber(dto.busNumber).orElseThrow {
-      IllegalArgumentException("해당 버스가 존재하지 않습니다.")
-    }
-
-    if(busReservationsRepository.existsByUser(user)) {
-      throw IllegalArgumentException("이미 버스 예약 목록이 존재합니다.")
-    }
-
-    if(bus.maxTable != 0) {
-      bus.maxTable -= 1;
-    } else {
-      throw IllegalArgumentException("버스에 탑승인원이 초과하였습니다.")
-    }
-
-    busRepository.save(bus)
-
-    val busReservation = BusReservation(
-      null,
-      bus,
-      dto.endCity,
-      true,
-      LocalDateTime.now(),
-      null,
-      user
-    )
-
-    busReservationsRepository.save(busReservation)
-
-    return "버스 예약이 완료되었습니다."
-  }
-
   override fun updateBusReservation(userId: String, dto: BusReservationDto.Update): String {
     val user = userRepository.findByLoginId(userId).orElseThrow{
       IllegalArgumentException("해당 유저가 존재하지 않습니다.")

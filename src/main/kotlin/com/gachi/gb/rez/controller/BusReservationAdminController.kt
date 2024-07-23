@@ -38,7 +38,7 @@ class BusReservationAdminController (
   }
 
   @Operation(summary = "호차별 탑승 예약 목록 조회")
-  @GetMapping("/{busId}")
+  @GetMapping("/reservation/{busId}")
   fun getBusReservationsByBusId(
     @PathVariable busId: Int
   ): CommonResponse<List<BusReservationDto.GetList>> {
